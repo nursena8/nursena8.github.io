@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nursena Baykır — AI & Data Developer</title>
+  <meta name="description" content="AI & Data Developer building intelligent systems — agentic workflows, RAG pipelines, real-time data engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #F7F4EE;
+      --fg:           #0D0D0D;
+      --accent:       #CF4500;
+      --accent-dim:   #FFF0E8;
+      --muted:        #777068;
+      --border:       #E0DBD3;
+      --card:         #FFFFFF;
+      --font-display: 'Syne', 'Georgia', serif;
+      --font-body:    'Outfit', 'Helvetica Neue', sans-serif;
+      --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── DOT GRID ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, #b8b0a4 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.28;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(247,244,238,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--fg);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 5rem;
+    }
+
+    .hero-content { flex: 1; min-width: 0; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-eyebrow span {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 2.4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.75rem;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: #555;
+      max-width: 50ch;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.65rem 1.3rem;
+      border-radius: 0.4rem;
+      font-size: 0.87rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-dark {
+      background: var(--fg);
+      color: var(--bg);
+    }
+
+    .btn-dark:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(207,69,0,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--fg);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* avatar */
+    .hero-avatar { flex-shrink: 0; }
+
+    .avatar-ring {
+      position: relative;
+      width: 260px;
+      height: 260px;
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(207,69,0,0.5);
+      animation: rotate 18s linear infinite;
+    }
+
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: -22px;
+      border-radius: 50%;
+      border: 1px dashed rgba(207,69,0,0.2);
+      animation: rotate 30s linear infinite reverse;
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      border: 3px solid var(--border);
+      background: var(--border);
+    }
+
+    /* ── SECTION SHELL ── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    section {
+      padding: 6rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 4rem;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 5.5rem;
+      top: 0.4rem;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .t-item {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 0 2.5rem;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .t-year {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: right;
+      padding-top: 0.35rem;
+      line-height: 1.4;
+    }
+
+    .t-dot {
+      position: absolute;
+      left: calc(5.5rem - 5px);
+      top: 0.45rem;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2.5px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+      z-index: 1;
+    }
+
+    .t-dot.current {
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 2px var(--accent); }
+      50% { box-shadow: 0 0 0 5px rgba(207,69,0,0.2); }
+    }
+
+    .t-body {
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .t-item:last-child .t-body {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .t-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .t-company {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .t-role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.25rem;
+    }
+
+    .t-desc {
+      font-size: 0.93rem;
+      color: #575049;
+      line-height: 1.75;
+      max-width: 68ch;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.875rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .p-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    }
+
+    .p-visual {
+      height: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .p-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.04) 0px,
+        rgba(255,255,255,0.04) 1px,
+        transparent 1px,
+        transparent 12px
+      );
+    }
+
+    .p-body {
+      padding: 1.2rem 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .p-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      line-height: 1.3;
+    }
+
+    .p-desc {
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .p-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.18rem 0.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      color: var(--muted);
+    }
+
+    .p-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1.5px solid currentColor;
+      padding-bottom: 1px;
+      width: fit-content;
+      transition: color 0.15s;
+    }
+
+    .p-link:hover { color: var(--accent); }
+
+    /* ── SKILLS ── */
+    .skills-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .sk-group h3 {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .sk-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .sk-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.3rem 0.65rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.35rem;
+      color: var(--fg);
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+      cursor: default;
+    }
+
+    .sk-tag:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ── FOOTER ── */
+    .footer-wrap {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .footer-left {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+
+      .hero {
+        flex-direction: column-reverse;
+        padding: 7rem 1.5rem 4rem;
+        gap: 2.5rem;
+        min-height: auto;
+      }
+
+      .avatar-ring { width: 180px; height: 180px; }
+
+      section { padding: 4rem 1.5rem; }
+
+      .timeline::before { left: 0; }
+      .t-item { grid-template-columns: 1fr; padding-left: 1.75rem; }
+      .t-year { text-align: left; margin-bottom: 0.2rem; }
+      .t-dot { left: -5px; }
+
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 500px) {
+      .nav-links li:not(:last-child) { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-name" href="#">Nursena Baykır</a>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="https://github.com/nursena8" target="_blank">GitHub ↗</a></li>
+    <li><a href="https://medium.com/@nursenabaykir" target="_blank">Medium ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span></span> AI &amp; Data Developer</div>
+    <h1>NURSENA <em>BAYKIR</em></h1>
+    <p class="hero-bio">
+      Building intelligent systems that actually work in production — agentic workflows, RAG pipelines, real-time stream processing, and predictive models. Currently crafting AI solutions at Brainy.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/nursena8" class="btn btn-dark" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/nursena-bayk%C4%B1r/" class="btn btn-outline" target="_blank">LinkedIn ↗</a>
+      <a href="https://medium.com/@nursenabaykir" class="btn btn-outline" target="_blank">Medium ↗</a>
+      <a href="mailto:nursenabaykir@gmail.com" class="btn btn-outline">Email ↗</a>
+    </div>
+  </div>
+  <div class="hero-avatar">
+    <div class="avatar-ring">
+      <img src="https://github.com/nursena8.png" alt="Nursena Baykır" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section-wrap">
+  <section id="experience">
+    <div class="label">Career</div>
+    <h2 class="section-heading">Experience</h2>
+
+    <div class="timeline">
+
+      <div class="t-item reveal">
+        <div class="t-year">2025<br>now</div>
+        <div class="t-dot current"></div>
+        <div class="t-body">
+          <div class="t-header">
+            <span class="t-company">Brainy</span>
+            <span class="t-role">AI Developer</span>
+          </div>
+          <p class="t-desc">
+            Building AI-powered applications for internal teams and external clients. Developed a live Google Reviews monitoring and auto-response system — an AI pipeline filters incoming reviews, drafts contextual replies, and instantly routes critical complaints (e.g. health incidents) to branch managers via email. Connected company databases, Meta analytics, and third-party data sources into a unified internal chatbot with multi-agent orchestration. Also built automated report-generation agents that compile insights and deliver them on a schedule.
+          </p>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2024</div>
+        <div class="t-dot"></div>
+        <div class="t-body">
+          <div class="t-header">
+            <span class="t-company">UNDP × Samsung Innovation Campus</span>
+            <span class="t-role">AI Bootcamp</span>
+          </div>
+          <p class="t-desc">
+            Participated in a competitive AI bootcamp co-run by UNDP and Samsung. Built an anomaly and violence detection system using YOLOv7-based pose estimation, identifying abnormal human behaviors in surveillance footage. Published the dataset on Kaggle.
+          </p>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2024</div>
+        <div class="t-dot"></div>
+        <div class="t-body">
+          <div class="t-header">
+            <span class="t-company">TAV Teknoloji</span>
+            <span class="t-role">Data Scientist Intern</span>
+          </div>
+          <p class="t-desc">
+            Designed and implemented an LSTM-based time series model to forecast airport check-in passenger volumes, giving operations teams a data-driven basis for resource planning and staffing decisions.
+          </p>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2023</div>
+        <div class="t-dot"></div>
+        <div class="t-body">
+          <div class="t-header">
+            <span class="t-company">Fibabanka</span>
+            <span class="t-role">DevOps Engineer Intern</span>
+          </div>
+          <p class="t-desc">
+            Worked within the DevOps team reviewing CI/CD pipeline configurations and maintaining Grafana alerting dashboards. Developed a Python-based load testing script with Locust to benchmark system throughput and identify performance bottlenecks under high traffic.
+          </p>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2022</div>
+        <div class="t-dot"></div>
+        <div class="t-body">
+          <div class="t-header">
+            <span class="t-company">TÜBİTAK 2209-A</span>
+            <span class="t-role">Research Project</span>
+          </div>
+          <p class="t-desc">
+            Accepted into TÜBİTAK's university research grants programme in my second year. Led the design of a voice-activated sensor system for visually impaired individuals, integrating audio feedback to assist with spatial navigation and obstacle awareness.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-wrap">
+  <section id="projects">
+    <div class="label">Work</div>
+    <h2 class="section-heading">Projects</h2>
+
+    <div class="projects-grid">
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #1b0535 0%, #3d1070 100%);">🤖</div>
+        <div class="p-body">
+          <div class="p-name">Slack Summary with AI</div>
+          <p class="p-desc">Automatically collects Slack channel messages and generates concise summaries using Claude AI, then posts them back to a designated channel. Configurable timeframe, supports scheduled daily standups and activity digests.</p>
+          <div class="p-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Claude AI</span>
+            <span class="tag">Slack API</span>
+          </div>
+          <a href="https://github.com/nursena8/slack_summary_with_AI" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #002a26 0%, #005c52 100%);">📰</div>
+        <div class="p-body">
+          <div class="p-name">News RAG Assistant</div>
+          <p class="p-desc">RAG system that answers questions by combining a local SQLite news database with live internet search. Uses FAISS semantic search (0.7) and BM25 keyword matching (0.3) via an ensemble retriever for optimal recall.</p>
+          <div class="p-tags">
+            <span class="tag">LangChain</span>
+            <span class="tag">FAISS</span>
+            <span class="tag">BM25</span>
+            <span class="tag">HuggingFace</span>
+          </div>
+          <a href="https://github.com/nursena8/newsRagAssistant" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #1c0900 0%, #4a2000 100%);">⚡</div>
+        <div class="p-body">
+          <div class="p-name">Real-Time E-Commerce Analytics</div>
+          <p class="p-desc">Stream processing pipeline for real-time analysis of user behavior and product recommendations on an e-commerce platform. Apache Flink consumes Kafka events from a Python producer and processes them in real time.</p>
+          <div class="p-tags">
+            <span class="tag">Apache Flink</span>
+            <span class="tag">Apache Kafka</span>
+            <span class="tag">Docker</span>
+            <span class="tag">Python</span>
+          </div>
+          <a href="https://github.com/nursena8/flink-e-commerce-project" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #1a0000 0%, #4a0000 100%);">🎯</div>
+        <div class="p-body">
+          <div class="p-name">Anomaly Pose Detection</div>
+          <p class="p-desc">Violence and anomalous behavior detection via YOLOv7 pose estimation — identifies abnormal human movements in footage. Developed during the UNDP × Samsung Innovation Campus bootcamp. Dataset published on Kaggle.</p>
+          <div class="p-tags">
+            <span class="tag">YOLOv7</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Python</span>
+            <span class="tag">Kaggle</span>
+          </div>
+          <a href="https://github.com/nursena8/Anomaly-pose-detection" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #001608 0%, #003d18 100%);">🏦</div>
+        <div class="p-body">
+          <div class="p-name">Bank Customer Churn Prediction</div>
+          <p class="p-desc">End-to-end ML pipeline predicting customer churn using Gradient Boosting, Random Forest, and SVC. Includes KMeans segmentation, Evidently AI monitoring dashboards, and a live Streamlit app.</p>
+          <div class="p-tags">
+            <span class="tag">Scikit-learn</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Evidently AI</span>
+            <span class="tag">Docker</span>
+          </div>
+          <a href="https://github.com/nursena8/BankCustomerProject" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="p-visual" style="background: linear-gradient(135deg, #00001c 0%, #000048 100%);">💳</div>
+        <div class="p-body">
+          <div class="p-name">Credit Card Fraud Detection</div>
+          <p class="p-desc">Deep learning model detecting fraudulent transactions with 97% accuracy across 29 anonymized features. Combines Keras neural networks with Logistic Regression and SVC; handles severe class imbalance via undersampling.</p>
+          <div class="p-tags">
+            <span class="tag">Keras</span>
+            <span class="tag">Scikit-learn</span>
+            <span class="tag">Python</span>
+            <span class="tag">Pandas</span>
+          </div>
+          <a href="https://github.com/nursena8/CreditFraudDetection" class="p-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <footer>
+    <span class="footer-left">Nursena Baykır</span>
+    <div class="footer-links">
+      <a href="https://github.com/nursena8" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/nursena-bayk%C4%B1r/" target="_blank">LinkedIn</a>
+      <a href="https://medium.com/@nursenabaykir" target="_blank">Medium</a>
+      <a href="mailto:nursenabaykir@gmail.com">nursenabaykir@gmail.com</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
